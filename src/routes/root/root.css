@@ -1,0 +1,23 @@
+.sidebar {
+  border: solid 1px black;
+  max-width: 350px;
+  min-width: 350px;
+  height: 100%;
+  background-image: url(../../assets/chrisb_logo_hell.png);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: 120%;
+  background-color: rgb(207, 207, 207);
+}
+.sidebar__header {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+}
+.sidebar__body {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 3rem;
+}
