@@ -7,6 +7,7 @@ interface InputProps {
   placeholder?: string;
   autoComplete?: string;
   required?: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Inputfield({
@@ -17,6 +18,7 @@ function Inputfield({
   placeholder,
   autoComplete,
   required,
+  onChange,
 }: InputProps) {
   return (
     <>
@@ -30,6 +32,7 @@ function Inputfield({
         className={`${className}__input`}
         autoComplete={autoComplete}
         required={required}
+        onChange={onChange}
       />
     </>
   );
