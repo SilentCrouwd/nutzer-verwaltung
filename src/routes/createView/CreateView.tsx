@@ -1,11 +1,11 @@
 import "./createView.css";
 import Button from "../../components/button/Button";
 import Inputfield from "../../components/input/InputField";
-import { formReducer } from "../../hooks/useFormInput";
-import { useReducer } from "react";
-import type { FormState } from "../../hooks/useFormInput";
+import { useHandleInput } from "../../hooks/useFormInput";
+import type React from "react";
 
-
+import { useContext } from "react";
+import { UserContext } from "../../hooks/userContext";
 const FORM_FIELDS = [
   { id: "reg-name", name: "Name", type: "text" },
   {
@@ -22,19 +22,14 @@ const FORM_FIELDS = [
     autoComplete: "email",
     required: true,
   },
-  {
-    id: "reg-gender",
-    name: "Gender",
-    type: "select",
-    placeholder: "z.B. Weiblich, Männlich, Divers...",
-    required: true,
-  },
+
   {
     id: "reg-locate",
     name: "Address",
     type: "text",
     autoComplete: "country-name",
     placeholder: "z.B. Berlin, Deutschland",
+    required: true,
   },
   { id: "reg-phone", name: "Phone", type: "tel", autoComplete: "tel" },
   {
@@ -42,35 +37,32 @@ const FORM_FIELDS = [
     name: "Web",
     type: "url",
     placeholder: "https://example.com",
+    required: true,
   },
-  { id: "reg-picture", name: "Img", type: "file" },
+  { id: "reg-picture", name: "Img", type: "file", required: true },
 ];
-const initialState: FormState = {
-  Mail: "",
-  Birth: "",
-  Gender: "",
-  Web: "",
-  Phone: "",
-  Name: "",
-  Address: "",
-  Img: "",
-};
+
 function CreateView() {
-  const [state, dispatch] = useReducer(formReducer, initialState);
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    dispatch({
-      type: "CHANGE_INPUT",
-      field: e.target.name as keyof FormState,
-      value: e.target.value,
-    });
-    console.log(e.target.value);
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error(
+      "CreateView muss innerhalb von UserContext verwendet werden!",
+    );
+  }
+  const { addUser } = context;
+
+  const { values, handleInputChange, resetInputField } = useHandleInput();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    addUser(values as Record<string, string>);
+    resetInputField();
   };
 
   return (
     <div className="registration">
-      <form className="registration-form" noValidate>
+      <form className="registration-form" onSubmit={handleSubmit}>
         <h2 className="registration-form__title">Registrierung</h2>
         {FORM_FIELDS.map((field) => (
           <div className="registration-form__field" key={field.id}>
@@ -78,11 +70,12 @@ function CreateView() {
               type={field.type}
               id={field.id}
               name={field.name}
+              value={values[field.name] || ""}
               className="registration-form"
               autoComplete={field.autoComplete}
               placeholder={field.placeholder}
               required={field.required}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </div>
         ))}
@@ -95,7 +88,9 @@ function CreateView() {
             name="Gender"
             id="reg-gender"
             className="registration-form__input"
-            onChange={handleChange}
+            value={values["Gender"] || ""}
+            onChange={handleInputChange}
+            required
           >
             <option value="" disabled>
               -- Bitte wählen --

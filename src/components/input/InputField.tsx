@@ -4,6 +4,7 @@ interface InputProps {
   className: string;
   type: string;
   name: string;
+  value: string | number;
   placeholder?: string;
   autoComplete?: string;
   required?: boolean;
@@ -15,6 +16,7 @@ function Inputfield({
   className,
   type,
   name,
+  value,
   placeholder,
   autoComplete,
   required,
@@ -28,6 +30,7 @@ function Inputfield({
       <input
         type={type}
         id={id}
+        value={value}
         name={name}
         className={`${className}__input`}
         autoComplete={autoComplete}
