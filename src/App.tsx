@@ -7,16 +7,24 @@ import Root from "./routes/root/Root";
 import { UserContext } from "./hooks/userContext";
 import type { user } from "./hooks/userContext";
 import { useEffect, useState } from "react";
-import { useSetLocalStorage } from "./hooks/useSetLocalStorage";
+import {
+  useGetLocalStorage,
+  useSetLocalStorage,
+} from "./hooks/useLocalStorage";
 
 function App() {
   const { handleLocalStorage } = useSetLocalStorage();
   const [userArray, setUserArray] = useState<user[]>([]);
+  const { handleGetLocalStorage } = useGetLocalStorage();
+
   useEffect(() => {
     if (userArray.length > 0) {
-      handleLocalStorage(userArray);
+      const storedUser = handleGetLocalStorage();
+      const updatedUser = [...userArray, ...storedUser];
+      handleLocalStorage(updatedUser);
     }
   }, [userArray]);
+
   const addUser = (newUser: user) => {
     setUserArray((prevUsers) => [...prevUsers, newUser]);
   };

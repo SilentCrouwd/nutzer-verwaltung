@@ -52,7 +52,6 @@ function UserCard({
           </p>
         </div>
         <div className="userCard__main userCard__main--right">
-          <Button className="btn btn__delete" buttonName="X"></Button>
           <p className="userCard__info userCard__info--locate">
             <FaHouseUser />
             {UserLocate}
@@ -65,6 +64,9 @@ function UserCard({
             <TbWorldWww />
             {UserWeb}
           </p>
+        </div>
+        <div className="userCard__btn-container">
+          <Button className="btn btn__delete" buttonName="X"></Button>
         </div>
       </div>
     </div>

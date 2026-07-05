@@ -1,25 +1,32 @@
 import UserCard from "../../components/userCard/UserCard";
-import EditView from "../editView/EditView";
+import { useGetLocalStorage } from "../../hooks/useLocalStorage";
+import type { user } from "../../hooks/userContext";
 import "./overview.css";
 import { Link } from "react-router-dom";
 
 function Overview() {
-  const CardEl = document.querySelector(".userCard");
+  const { handleGetLocalStorage } = useGetLocalStorage();
+  const storedUsers = handleGetLocalStorage();
+  console.log(storedUsers);
 
   return (
-    <div>
-      <Link to="/edit">
-        <UserCard
-          UserName="silent"
-          UserBirth="07.05.1987"
-          UserGender="male"
-          UserMail="silent@Sil.com"
-          UserLocate="Lauenstein"
-          UserPicture="HierKommteinbild"
-          UserPhone="0172/1195896"
-          UserWeb="www.Silt.com"
-        ></UserCard>
-      </Link>
+    <div className="overview__card-container">
+      {storedUsers.map((user: user) => {
+        return (
+          <Link className="card__link" to="/edit" key={user.id}>
+            <UserCard
+              UserName={user.Name}
+              UserBirth={new Date(user.Birth).toLocaleDateString("de-DE")}
+              UserGender={user.Gender}
+              UserMail={user.Mail}
+              UserLocate={user.Address}
+              UserPicture={user.Img}
+              UserPhone={user.Phone}
+              UserWeb={user.Web}
+            ></UserCard>
+          </Link>
+        );
+      })}
     </div>
   );
 }

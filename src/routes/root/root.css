@@ -1,7 +1,12 @@
+.root-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
 .sidebar {
   border: solid 1px black;
-  max-width: 350px;
-  min-width: 350px;
+  max-width: 250px;
+  min-width: 250px;
   height: 100%;
   background-image: url(../../assets/chrisb_logo_hell.png);
   background-position: bottom;
@@ -18,6 +23,12 @@
   display: flex;
   gap: 1rem;
   flex-direction: column;
-  width: 100%;
+
   margin-top: 3rem;
+}
+.sidebar__body > a {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  width: 100%;
 }

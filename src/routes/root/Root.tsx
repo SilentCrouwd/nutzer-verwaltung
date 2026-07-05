@@ -4,13 +4,13 @@ import Button from "../../components/button/Button";
 
 function Root() {
   return (
-    <div className="overview">
+    <div className="root-container">
       <div className="sidebar">
         <div className="sidebar__header">
           <h1>Nutzerverwaltung</h1>
         </div>
         <div className="sidebar__body">
-          <Link to="overview">
+          <Link  to="overview">
             <Button className="btn" buttonName="Overview"></Button>
           </Link>
           <Link to="create">

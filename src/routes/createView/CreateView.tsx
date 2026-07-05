@@ -46,7 +46,7 @@ function CreateView() {
   const context = useContext(UserContext);
   if (!context) {
     throw new Error(
-      "CreateView muss innerhalb von UserContext verwendet werden!",
+      "Etwas ist schief gelaufen ",
     );
   }
   const { addUser } = context;

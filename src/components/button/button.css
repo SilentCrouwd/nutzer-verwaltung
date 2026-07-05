@@ -14,8 +14,8 @@
 .btn:active {
   background-color: aqua;
 }
-a {
-  display: flex;
-  justify-content: center;
-  text-decoration: none;
+.btn__delete {
+  width: fit-content;
+  padding: 0.2rem;
+  color: red;
 }
