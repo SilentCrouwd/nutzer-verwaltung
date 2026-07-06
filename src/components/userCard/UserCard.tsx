@@ -7,7 +7,7 @@ import { IoMail } from "react-icons/io5";
 import { FaHouseUser } from "react-icons/fa";
 import { MdOutlineSmartphone } from "react-icons/md";
 import random from "../../assets/Random.jpeg";
-
+import { Link } from "react-router-dom";
 interface UserCardProps {
   UserName: string;
   UserBirth: string;
@@ -35,36 +35,39 @@ function UserCard({
         <img src={random} alt={UserPicture} />
       </div>
       <div className="userCard__wrapper">
-        <div className="userCard__main userCard__main--left">
-          <h1 className="userCard__info userCard__info--name">{UserName}</h1>
+        <Link className="userCard__link" to="/edit">
+          <div className="userCard__main userCard__main--left">
+            <h1 className="userCard__info userCard__info--name">{UserName}</h1>
 
-          <p className="userCard__info userCard__info--birth">
-            <AiFillCalendar />
-            {UserBirth}
-          </p>
-          <p className="userCard__info userCard__info--gender">
-            <AiFillAndroid />
-            {UserGender}
-          </p>
-          <p className="userCard__info userCard__info--mail">
-            <IoMail />
-            {UserMail}
-          </p>
-        </div>
-        <div className="userCard__main userCard__main--right">
-          <p className="userCard__info userCard__info--locate">
-            <FaHouseUser />
-            {UserLocate}
-          </p>
-          <p className="userCard__info userCard__info--phone">
-            <MdOutlineSmartphone />
-            {UserPhone}
-          </p>
-          <p className="userCard__info userCard__info--web">
-            <TbWorldWww />
-            {UserWeb}
-          </p>
-        </div>
+            <p className="userCard__info userCard__info--birth">
+              <AiFillCalendar />
+              {UserBirth}
+            </p>
+            <p className="userCard__info userCard__info--gender">
+              <AiFillAndroid />
+              {UserGender}
+            </p>
+            <p className="userCard__info userCard__info--mail">
+              <IoMail />
+              {UserMail}
+            </p>
+          </div>
+
+          <div className="userCard__main userCard__main--right">
+            <p className="userCard__info userCard__info--locate">
+              <FaHouseUser />
+              {UserLocate}
+            </p>
+            <p className="userCard__info userCard__info--phone">
+              <MdOutlineSmartphone />
+              {UserPhone}
+            </p>
+            <p className="userCard__info userCard__info--web">
+              <TbWorldWww />
+              {UserWeb}
+            </p>
+          </div>
+        </Link>
         <div className="userCard__btn-container">
           <Button className="btn btn__delete" buttonName="X"></Button>
         </div>

@@ -42,3 +42,8 @@ img {
   margin-bottom: 3rem;
   font-size: 2rem;
 }
+.userCard__link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+}

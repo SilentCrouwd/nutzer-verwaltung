@@ -13,18 +13,17 @@ function Overview() {
     <div className="overview__card-container">
       {storedUsers.map((user: user) => {
         return (
-          <Link className="card__link" to="/edit" key={user.id}>
-            <UserCard
-              UserName={user.Name}
-              UserBirth={new Date(user.Birth).toLocaleDateString("de-DE")}
-              UserGender={user.Gender}
-              UserMail={user.Mail}
-              UserLocate={user.Address}
-              UserPicture={user.Img}
-              UserPhone={user.Phone}
-              UserWeb={user.Web}
-            ></UserCard>
-          </Link>
+          <UserCard
+            key={user.id}
+            UserName={user.Name}
+            UserBirth={new Date(user.Birth).toLocaleDateString("de-DE")}
+            UserGender={user.Gender}
+            UserMail={user.Mail}
+            UserLocate={user.Address}
+            UserPicture={user.Img}
+            UserPhone={user.Phone}
+            UserWeb={user.Web}
+          ></UserCard>
         );
       })}
     </div>
