@@ -11,8 +11,10 @@ import {
   useGetLocalStorage,
   useSetLocalStorage,
 } from "./hooks/useLocalStorage";
+import { RenderContext } from "./hooks/useRenderContext";
 
 function App() {
+  const [render, setRender] = useState<boolean>(false);
   const { handleLocalStorage } = useSetLocalStorage();
   const [userArray, setUserArray] = useState<user[]>([]);
   const { handleGetLocalStorage } = useGetLocalStorage();
@@ -54,9 +56,11 @@ function App() {
     },
   );
   return (
-    <UserContext value={{ userArray, addUser }}>
-      <RouterProvider router={router} />
-    </UserContext>
+    <RenderContext value={{ render, setRender }}>
+      <UserContext value={{ userArray, addUser }}>
+        <RouterProvider router={router} />
+      </UserContext>
+    </RenderContext>
   );
 }
 

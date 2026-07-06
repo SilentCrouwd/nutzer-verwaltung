@@ -8,6 +8,15 @@ import { FaHouseUser } from "react-icons/fa";
 import { MdOutlineSmartphone } from "react-icons/md";
 import random from "../../assets/Random.jpeg";
 import { Link } from "react-router-dom";
+
+import {
+  useGetLocalStorage,
+  useSetLocalStorage,
+} from "../../hooks/useLocalStorage";
+import type { user } from "../../hooks/userContext";
+import { useContext } from "react";
+import { RenderContext } from "../../hooks/useRenderContext";
+
 interface UserCardProps {
   UserName: string;
   UserBirth: string;
@@ -17,6 +26,7 @@ interface UserCardProps {
   UserPhone: string;
   UserWeb: string;
   UserPicture: string;
+  UserId: number;
 }
 
 function UserCard({
@@ -28,9 +38,24 @@ function UserCard({
   UserPhone,
   UserWeb,
   UserPicture,
+  UserId,
 }: UserCardProps) {
+  const { handleLocalStorage } = useSetLocalStorage();
+
+  const { handleGetLocalStorage } = useGetLocalStorage();
+  const { render, setRender } = useContext(RenderContext);
+  function handleDeleteUser(currId: number) {
+    console.log(currId);
+    const handleArray = handleGetLocalStorage();
+    handleArray.splice(currId, 1);
+    handleLocalStorage(handleArray);
+
+    setRender!(!render);
+    //[funciton aus dem context]
+  }
+
   return (
-    <div className="userCard">
+    <div className="userCard" data-id={UserId}>
       <div className="userCard__img-container">
         <img src={random} alt={UserPicture} />
       </div>
@@ -69,7 +94,13 @@ function UserCard({
           </div>
         </Link>
         <div className="userCard__btn-container">
-          <Button className="btn btn__delete" buttonName="X"></Button>
+          <Button
+            className="btn btn__delete"
+            buttonName="X"
+            onClick={() => {
+              handleDeleteUser(UserId);
+            }}
+          ></Button>
         </div>
       </div>
     </div>

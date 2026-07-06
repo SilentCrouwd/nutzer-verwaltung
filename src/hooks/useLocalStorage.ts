@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import type { user } from "./userContext";
-
 const LOCAL_STORAGE_KEY = "User";
 
 export function useSetLocalStorage() {
@@ -11,7 +8,6 @@ export function useSetLocalStorage() {
 }
 
 export function useGetLocalStorage() {
-  const [userArray, setUserArray] = useState<any[]>([]);
   function handleGetLocalStorage() {
     const rawStoredData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (!rawStoredData || rawStoredData === "undefined") {

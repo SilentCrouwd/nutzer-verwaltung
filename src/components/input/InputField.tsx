@@ -4,11 +4,11 @@ interface InputProps {
   className: string;
   type: string;
   name: string;
-  value: string | number;
+  value?: string | number;
   placeholder?: string;
   autoComplete?: string;
   required?: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Inputfield({
@@ -36,6 +36,7 @@ function Inputfield({
         autoComplete={autoComplete}
         required={required}
         onChange={onChange}
+        placeholder={placeholder}
       />
     </>
   );
