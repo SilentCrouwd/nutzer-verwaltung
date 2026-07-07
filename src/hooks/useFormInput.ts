@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 export function useHandleInput() {
   const [values, setValues] = useState<Record<string, string>>({});
 
@@ -16,5 +15,5 @@ export function useHandleInput() {
     setValues({});
   }
 
-  return { values, handleInputChange, resetInputField };
+  return { values, setValues, handleInputChange, resetInputField };
 }

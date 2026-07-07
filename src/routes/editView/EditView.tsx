@@ -1,51 +1,80 @@
 import "./editView.css";
+import { useParams } from "react-router-dom";
 import Button from "../../components/button/Button";
 import Inputfield from "../../components/input/InputField";
+import { useSetLocalStorage } from "../../hooks/useLocalStorage";
+import { useContext, useEffect } from "react";
+import { useHandleInput } from "../../hooks/useFormInput";
+import { UserContext } from "../../hooks/userContext";
+import { RenderContext } from "../../hooks/useRenderContext";
+
+type RouteParams = {
+  id: string;
+};
 
 const FORM_FIELDS = [
   { id: "reg-name", name: "Name", type: "text" },
   {
     id: "reg-birth",
-    name: "birth",
+    name: "Birth",
     type: "date",
     autoComplete: "bday",
     required: true,
   },
   {
     id: "reg-mail",
-    name: "mail",
+    name: "Mail",
     type: "email",
     autoComplete: "email",
     required: true,
   },
   {
     id: "reg-gender",
-    name: "gender",
+    name: "Gender",
     type: "text",
     placeholder: "z.B. Weiblich, Männlich, Divers...",
     required: true,
   },
   {
     id: "reg-locate",
-    name: "locate",
+    name: "Address",
     type: "text",
     autoComplete: "country-name",
     placeholder: "z.B. Berlin, Deutschland",
   },
-  { id: "reg-phone", name: "phone", type: "tel", autoComplete: "tel" },
+  { id: "reg-phone", name: "Phone", type: "tel", autoComplete: "tel" },
   {
     id: "reg-web",
-    name: "web",
+    name: "Web",
     type: "url",
     placeholder: "https://example.com",
   },
-  { id: "reg-picture", name: "picture", type: "file" },
 ];
 
 function EditView() {
+  const { id } = useParams<RouteParams>();
+  const userArray = useContext(UserContext)?.userArray;
+  const { values, setValues, handleInputChange } = useHandleInput();
+  const { handleLocalStorage } = useSetLocalStorage();
+  const { render, setRender } = useContext(RenderContext);
+  const addUser = useContext(UserContext)?.addUser;
+  useEffect(() => {
+    if (userArray && userArray.length > 0) {
+      setValues(userArray[Number(id)]);
+    }
+  }, []);
+
+  function handleOnSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    userArray!.splice(Number(id), 1);
+    handleLocalStorage(userArray ?? []);
+    addUser!(values as Record<string, string>);
+    setRender!(!render);
+  }
+
   return (
     <div className="registration">
-      <form className="registration-form" noValidate>
+      <form className="registration-form" noValidate onSubmit={handleOnSubmit}>
         <h2 className="registration-form__title">Edit</h2>
 
         {FORM_FIELDS.map((field) => (
@@ -58,6 +87,8 @@ function EditView() {
               autoComplete={field.autoComplete}
               placeholder={field.placeholder}
               required={field.required}
+              value={values[field.name]}
+              onChange={handleInputChange}
             />
           </div>
         ))}

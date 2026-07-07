@@ -1,25 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import UserCard from "../../components/userCard/UserCard";
-import { useGetLocalStorage } from "../../hooks/useLocalStorage";
-import type { user } from "../../hooks/userContext";
+import { UserContext, type user } from "../../hooks/userContext";
 import "./overview.css";
 import { RenderContext } from "../../hooks/useRenderContext";
 
 function Overview() {
-  const { handleGetLocalStorage } = useGetLocalStorage();
-  const [users, setUsers] = useState<user[]>([]);
-  const { render } = useContext(RenderContext);
-  useEffect(() => {
-    const storedUsers = handleGetLocalStorage();
-    setUsers(storedUsers);
-  }, [render]);
+  const userArray = useContext(UserContext)?.userArray;
+
   return (
     <div className="overview__card-container">
-      {users.map((user: user, index: number) => {
+      {userArray!.map((user: user, id: number) => {
         return (
           <UserCard
-            key={index}
-            UserId={index}
+            key={id}
+            UserId={id}
             UserName={user.Name}
             UserBirth={new Date(user.Birth).toLocaleDateString("de-DE")}
             UserGender={user.Gender}

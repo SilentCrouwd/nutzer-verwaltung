@@ -9,13 +9,10 @@ import { MdOutlineSmartphone } from "react-icons/md";
 import random from "../../assets/Random.jpeg";
 import { Link } from "react-router-dom";
 
-import {
-  useGetLocalStorage,
-  useSetLocalStorage,
-} from "../../hooks/useLocalStorage";
-import type { user } from "../../hooks/userContext";
+import { useSetLocalStorage } from "../../hooks/useLocalStorage";
 import { useContext } from "react";
 import { RenderContext } from "../../hooks/useRenderContext";
+import { UserContext } from "../../hooks/userContext";
 
 interface UserCardProps {
   UserName: string;
@@ -39,19 +36,16 @@ function UserCard({
   UserWeb,
   UserPicture,
   UserId,
-}: UserCardProps) {
+}: Readonly<UserCardProps>) {
   const { handleLocalStorage } = useSetLocalStorage();
-
-  const { handleGetLocalStorage } = useGetLocalStorage();
+  const userArray = useContext(UserContext)?.userArray;
   const { render, setRender } = useContext(RenderContext);
   function handleDeleteUser(currId: number) {
     console.log(currId);
-    const handleArray = handleGetLocalStorage();
-    handleArray.splice(currId, 1);
-    handleLocalStorage(handleArray);
+    userArray!.splice(currId, 1);
+    handleLocalStorage(userArray ?? []);
 
     setRender!(!render);
-    //[funciton aus dem context]
   }
 
   return (
@@ -60,7 +54,7 @@ function UserCard({
         <img src={random} alt={UserPicture} />
       </div>
       <div className="userCard__wrapper">
-        <Link className="userCard__link" to="/edit">
+        <Link className="userCard__link" to={`/edit/${UserId}`}>
           <div className="userCard__main userCard__main--left">
             <h1 className="userCard__info userCard__info--name">{UserName}</h1>
 

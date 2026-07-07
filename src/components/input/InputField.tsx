@@ -1,5 +1,4 @@
 interface InputProps {
-  label?: string;
   id?: string;
   className: string;
   type: string;

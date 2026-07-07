@@ -6,13 +6,37 @@ import CreateView from "./routes/createView/CreateView";
 import Root from "./routes/root/Root";
 import { UserContext } from "./hooks/userContext";
 import type { user } from "./hooks/userContext";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   useGetLocalStorage,
   useSetLocalStorage,
 } from "./hooks/useLocalStorage";
 import { RenderContext } from "./hooks/useRenderContext";
-
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Root />,
+      children: [
+        {
+          path: "overview",
+          element: <Overview />,
+        },
+        {
+          path: "create",
+          element: <CreateView />,
+        },
+        {
+          path: "edit/:id",
+          element: <EditView />,
+        },
+      ],
+    },
+  ],
+  {
+    basename: "nutzer-verwaltung",
+  },
+);
 function App() {
   const [render, setRender] = useState<boolean>(false);
   const { handleLocalStorage } = useSetLocalStorage();
@@ -20,41 +44,20 @@ function App() {
   const { handleGetLocalStorage } = useGetLocalStorage();
 
   useEffect(() => {
-    if (userArray.length > 0) {
-      const storedUser = handleGetLocalStorage();
-      const updatedUser = [...userArray, ...storedUser];
-      handleLocalStorage(updatedUser);
+    const storedUser = handleGetLocalStorage();
+    if (storedUser && storedUser.length > 0) {
+      setUserArray(storedUser);
     }
+  }, [render]);
+
+  useEffect(() => {
+    handleLocalStorage(userArray);
   }, [userArray]);
 
   const addUser = (newUser: user) => {
     setUserArray((prevUsers) => [...prevUsers, newUser]);
   };
-  const router = createBrowserRouter(
-    [
-      {
-        path: "/",
-        element: <Root />,
-        children: [
-          {
-            path: "overview",
-            element: <Overview />,
-          },
-          {
-            path: "create",
-            element: <CreateView />,
-          },
-          {
-            path: "edit",
-            element: <EditView />,
-          },
-        ],
-      },
-    ],
-    {
-      basename: "nutzer-verwaltung",
-    },
-  );
+
   return (
     <RenderContext value={{ render, setRender }}>
       <UserContext value={{ userArray, addUser }}>

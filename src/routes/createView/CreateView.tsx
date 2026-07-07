@@ -44,25 +44,24 @@ const FORM_FIELDS = [
 
 function CreateView() {
   const context = useContext(UserContext);
+
   if (!context) {
-    throw new Error(
-      "Etwas ist schief gelaufen ",
-    );
+    throw new Error("Etwas ist schief gelaufen ");
   }
   const { addUser } = context;
-
   const { values, handleInputChange, resetInputField } = useHandleInput();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    addUser(values as Record<string, string>);
+    addUser!(values as Record<string, string>);
     resetInputField();
+
+    alert("User add to Storage");
   };
 
   return (
     <div className="registration">
-      <form className="registration-form" onSubmit={handleSubmit}>
+      <form className="registration-form" onSubmit={handleSubmit} noValidate>
         <h2 className="registration-form__title">Registrierung</h2>
         {FORM_FIELDS.map((field) => (
           <div className="registration-form__field" key={field.id}>
