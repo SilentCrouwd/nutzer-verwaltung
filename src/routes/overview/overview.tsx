@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import UserCard from "../../components/userCard/UserCard";
 import { UserContext, type user } from "../../hooks/userContext";
 import "./overview.css";
-import { RenderContext } from "../../hooks/useRenderContext";
 
 function Overview() {
   const userArray = useContext(UserContext)?.userArray;

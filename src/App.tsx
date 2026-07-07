@@ -6,7 +6,7 @@ import CreateView from "./routes/createView/CreateView";
 import Root from "./routes/root/Root";
 import { UserContext } from "./hooks/userContext";
 import type { user } from "./hooks/userContext";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useGetLocalStorage,
   useSetLocalStorage,
