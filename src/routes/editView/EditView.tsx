@@ -94,7 +94,7 @@ function EditView() {
               autoComplete={field.autoComplete}
               placeholder={field.placeholder}
               required={field.required}
-              value={values[field.name]}
+              value={values[field.name] ?? ""}
               onChange={handleInputChange}
             />
           </div>
