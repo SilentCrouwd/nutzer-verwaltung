@@ -15,13 +15,13 @@ import { RenderContext } from "../../hooks/useRenderContext";
 import { UserContext } from "../../hooks/userContext";
 
 interface UserCardProps {
-  UserName: string;
-  UserBirth: string;
-  UserMail: string;
-  UserGender: string;
-  UserLocate: string;
-  UserPhone: string;
-  UserWeb: string;
+  UserName: string | number;
+  UserBirth: string | number;
+  UserMail: string | number;
+  UserGender: string | number;
+  UserLocate: string | number;
+  UserPhone: string | number;
+  UserWeb: string | number;
   UserPicture: string;
   UserId: number;
 }
@@ -42,8 +42,8 @@ function UserCard({
   const { render, setRender } = useContext(RenderContext);
   function handleDeleteUser(currId: number) {
     console.log(currId);
-    userArray!.splice(currId, 1);
-    handleLocalStorage(userArray ?? []);
+    const newArray = userArray!.filter((currUser) => currUser.id !== currId);
+    handleLocalStorage(newArray ?? []);
 
     setRender!(!render);
   }

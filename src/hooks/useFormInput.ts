@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export function useHandleInput() {
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<Record<string, string | number>>({});
 
   function handleInputChange(
     e: React.ChangeEvent<

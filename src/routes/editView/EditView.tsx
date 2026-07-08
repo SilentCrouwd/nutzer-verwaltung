@@ -5,7 +5,7 @@ import Inputfield from "../../components/input/InputField";
 import { useSetLocalStorage } from "../../hooks/useLocalStorage";
 import { useContext, useEffect } from "react";
 import { useHandleInput } from "../../hooks/useFormInput";
-import { UserContext } from "../../hooks/userContext";
+import { UserContext, type user } from "../../hooks/userContext";
 import { RenderContext } from "../../hooks/useRenderContext";
 
 type RouteParams = {
@@ -60,15 +60,22 @@ function EditView() {
   const addUser = useContext(UserContext)?.addUser;
   useEffect(() => {
     if (userArray && userArray.length > 0) {
-      setValues(userArray[Number(id)]);
+      const foundUser = userArray.find((arrEL) => arrEL.id === Number(id));
+
+      if (foundUser) {
+        setValues(foundUser);
+      }
     }
   }, []);
 
   function handleOnSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    userArray!.splice(Number(id), 1);
-    handleLocalStorage(userArray ?? []);
-    addUser!(values as Record<string, string>);
+    const updatedUsers = userArray?.map((currUser) =>
+      currUser.id === Number(id) ? (values as user) : currUser,
+    );
+
+    handleLocalStorage(updatedUsers ?? []);
+    addUser?.(values as user);
     setRender!(!render);
   }
 

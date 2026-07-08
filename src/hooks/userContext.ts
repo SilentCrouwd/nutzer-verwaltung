@@ -1,6 +1,8 @@
 import { createContext } from "react";
 
-export type user = Record<string, string>;
+export type user = {
+  id: number;
+} & Record<string, string | number>;
 
 interface UserContextType {
   userArray?: user[];

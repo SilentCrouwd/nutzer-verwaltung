@@ -5,7 +5,7 @@ import { useHandleInput } from "../../hooks/useFormInput";
 import type React from "react";
 
 import { useContext } from "react";
-import { UserContext } from "../../hooks/userContext";
+import { UserContext, type user } from "../../hooks/userContext";
 const FORM_FIELDS = [
   { id: "reg-name", name: "Name", type: "text" },
   {
@@ -53,7 +53,7 @@ function CreateView() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addUser!(values as Record<string, string>);
+    addUser!(values as user);
     resetInputField();
 
     alert("User add to Storage");

@@ -8,17 +8,17 @@ function Overview() {
 
   return (
     <div className="overview__card-container">
-      {userArray!.map((user: user, id: number) => {
+      {userArray!.map((user: user) => {
         return (
           <UserCard
-            key={id}
-            UserId={id}
+            key={user.id}
+            UserId={user.id}
             UserName={user.Name}
             UserBirth={new Date(user.Birth).toLocaleDateString("de-DE")}
             UserGender={user.Gender}
             UserMail={user.Mail}
             UserLocate={user.Address}
-            UserPicture={user.Img}
+            UserPicture={String(user.Img)}
             UserPhone={user.Phone}
             UserWeb={user.Web}
           ></UserCard>

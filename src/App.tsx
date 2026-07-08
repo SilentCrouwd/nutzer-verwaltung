@@ -55,9 +55,8 @@ function App() {
   }, [userArray]);
 
   const addUser = (newUser: user) => {
-    setUserArray((prevUsers) => [...prevUsers, newUser]);
+    setUserArray((prevUsers) => [...prevUsers, { ...newUser, id: Date.now() }]);
   };
-
   return (
     <RenderContext value={{ render, setRender }}>
       <UserContext value={{ userArray, addUser }}>
