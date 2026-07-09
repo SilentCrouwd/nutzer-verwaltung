@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useSetLocalStorage } from "../../hooks/useLocalStorage";
 import { useContext } from "react";
 import { RenderContext } from "../../hooks/useRenderContext";
-import { UserContext, type user } from "../../hooks/userContext";
+import { UserContext } from "../../hooks/userContext";
 
 interface UserCardProps {
   UserName: string | number;
@@ -47,7 +47,6 @@ function UserCard({
 
   const { render, setRender } = useContext(RenderContext);
   function handleDeleteUser(currId: number) {
-    console.log(currId);
     const newArray = userArray!.filter((currUser) => currUser.id !== currId);
     handleLocalStorage(newArray ?? []);
 
