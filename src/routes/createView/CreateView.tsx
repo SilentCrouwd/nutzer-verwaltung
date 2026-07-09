@@ -6,6 +6,7 @@ import type React from "react";
 
 import { useContext } from "react";
 import { UserContext, type user } from "../../hooks/userContext";
+import type { FormInputs } from "../../hooks/useFormInputReducer";
 const FORM_FIELDS = [
   { id: "reg-name", name: "Name", type: "text" },
   {
@@ -53,7 +54,7 @@ function CreateView() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addUser!(values as user);
+    addUser!(values as any);
     resetInputField();
 
     alert("User add to Storage");
@@ -69,7 +70,7 @@ function CreateView() {
               type={field.type}
               id={field.id}
               name={field.name}
-              value={values[field.name] || ""}
+              value={values[field.name as keyof FormInputs] ?? ""}
               className="registration-form"
               autoComplete={field.autoComplete}
               placeholder={field.placeholder}

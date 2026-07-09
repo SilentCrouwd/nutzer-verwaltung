@@ -4,7 +4,7 @@ export type user = {
   id: number;
 } & Record<string, string | number>;
 
-interface UserContextType {
+export interface UserContextType {
   userArray?: user[];
   addUser?: (newUser: user) => void;
 }

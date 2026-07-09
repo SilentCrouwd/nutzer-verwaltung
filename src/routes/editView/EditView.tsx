@@ -3,9 +3,8 @@ import { useParams } from "react-router-dom";
 import Button from "../../components/button/Button";
 import Inputfield from "../../components/input/InputField";
 import { useSetLocalStorage } from "../../hooks/useLocalStorage";
-import { useContext, useEffect } from "react";
-import { useHandleInput } from "../../hooks/useFormInput";
-import { UserContext, type user } from "../../hooks/userContext";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../hooks/userContext";
 import { RenderContext } from "../../hooks/useRenderContext";
 
 type RouteParams = {
@@ -54,28 +53,38 @@ const FORM_FIELDS = [
 function EditView() {
   const { id } = useParams<RouteParams>();
   const userArray = useContext(UserContext)?.userArray;
-  const { values, setValues, handleInputChange } = useHandleInput();
   const { handleLocalStorage } = useSetLocalStorage();
   const { render, setRender } = useContext(RenderContext);
   const addUser = useContext(UserContext)?.addUser;
+
+  const [values, setValues] = useState<Record<string, string>>({});
+
   useEffect(() => {
     if (userArray && userArray.length > 0) {
       const foundUser = userArray.find((arrEL) => arrEL.id === Number(id));
-
       if (foundUser) {
-        setValues(foundUser);
+        setValues(foundUser as any);
       }
     }
-  }, []);
+  }, [userArray, id]);
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
   function handleOnSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     const updatedUsers = userArray?.map((currUser) =>
-      currUser.id === Number(id) ? (values as user) : currUser,
+      currUser.id === Number(id) ? { ...currUser, ...values } : currUser,
     );
 
     handleLocalStorage(updatedUsers ?? []);
-    addUser?.(values as user);
+    addUser?.(values as any);
     setRender!(!render);
   }
 

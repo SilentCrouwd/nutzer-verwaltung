@@ -6,12 +6,14 @@ import CreateView from "./routes/createView/CreateView";
 import Root from "./routes/root/Root";
 import { UserContext } from "./hooks/userContext";
 import type { user } from "./hooks/userContext";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {
   useGetLocalStorage,
   useSetLocalStorage,
 } from "./hooks/useLocalStorage";
+
 import { RenderContext } from "./hooks/useRenderContext";
+import { formInputReducer, initialState } from "./hooks/useFormInputReducer";
 const router = createBrowserRouter(
   [
     {

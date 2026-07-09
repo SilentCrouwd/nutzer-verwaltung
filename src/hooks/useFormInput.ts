@@ -1,19 +1,29 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
+import { formInputReducer, initialState } from "./useFormInputReducer";
 
 export function useHandleInput() {
-  const [values, setValues] = useState<Record<string, string | number>>({});
-
+  const [formInputState, dispatch] = useReducer(formInputReducer, initialState);
   function handleInputChange(
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >,
   ) {
     const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
-  }
-  function resetInputField() {
-    setValues({});
+
+    dispatch({
+      type: "ADD_INPUT",
+      payload: {
+        field: name as any,
+        value: value,
+      },
+    });
   }
 
-  return { values, setValues, handleInputChange, resetInputField };
+  function resetInputField() {
+    dispatch({
+      type: "RESET_FORM",
+    });
+  }
+
+  return { values: formInputState, handleInputChange, resetInputField };
 }

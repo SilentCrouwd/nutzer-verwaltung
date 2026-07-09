@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useSetLocalStorage } from "../../hooks/useLocalStorage";
 import { useContext } from "react";
 import { RenderContext } from "../../hooks/useRenderContext";
-import { UserContext } from "../../hooks/userContext";
+import { UserContext, type user } from "../../hooks/userContext";
 
 interface UserCardProps {
   UserName: string | number;
@@ -38,7 +38,13 @@ function UserCard({
   UserId,
 }: Readonly<UserCardProps>) {
   const { handleLocalStorage } = useSetLocalStorage();
-  const userArray = useContext(UserContext)?.userArray;
+  const context = useContext(UserContext);
+
+  if (!context) {
+    throw new Error("Etwas ist schief gelaufen ");
+  }
+  const { userArray, addUser } = context;
+
   const { render, setRender } = useContext(RenderContext);
   function handleDeleteUser(currId: number) {
     console.log(currId);
