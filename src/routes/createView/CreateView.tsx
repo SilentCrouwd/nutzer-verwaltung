@@ -5,17 +5,17 @@ import React, { useContext } from "react";
 import { UserContext } from "../../hooks/useContext";
 import { useNavigate } from "react-router-dom";
 const FORM_FIELDS = [
-  { id: "reg-name", name: "Name", type: "text" },
+  { id: "reg-name", name: "name", type: "text" },
   {
     id: "reg-birth",
-    name: "Birth",
+    name: "birth",
     type: "date",
     autoComplete: "bday",
     required: true,
   },
   {
     id: "reg-mail",
-    name: "Mail",
+    name: "mail",
     type: "email",
     autoComplete: "email",
     required: true,
@@ -23,21 +23,21 @@ const FORM_FIELDS = [
 
   {
     id: "reg-locate",
-    name: "Address",
+    name: "address",
     type: "text",
     autoComplete: "country-name",
     placeholder: "z.B. Berlin, Deutschland",
     required: true,
   },
-  { id: "reg-phone", name: "Phone", type: "tel", autoComplete: "tel" },
+  { id: "reg-phone", name: "phone", type: "tel", autoComplete: "tel" },
   {
     id: "reg-web",
-    name: "Web",
+    name: "web",
     type: "url",
     placeholder: "https://example.com",
     required: true,
   },
-  { id: "reg-picture", name: "Img", type: "file", required: true },
+  { id: "reg-picture", name: "img", type: "file", required: true },
 ];
 
 function CreateView() {
@@ -46,21 +46,21 @@ function CreateView() {
   if (!userContext) {
     return <p>Fehler: UserContext wurde nicht gefunden!</p>;
   }
-  const { state, dispatch } = userContext;
+  const { dispatch } = userContext;
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const newUser = {
       id: Date.now(),
-      name: formData.get("Name") as string,
-      birth: formData.get("Birth") as string,
-      mail: formData.get("Mail") as string,
-      gender: formData.get("Gender") as string,
-      locate: formData.get("Address") as string,
-      phone: formData.get("Phone") as string,
-      web: formData.get("Web") as string,
-      picture: formData.get("Img") as string,
+      name: formData.get("name") as string,
+      birth: formData.get("birth") as string,
+      mail: formData.get("mail") as string,
+      gender: formData.get("gender") as string,
+      locate: formData.get("address") as string,
+      phone: formData.get("phone") as string,
+      web: formData.get("web") as string,
+      picture: formData.get("img") as string,
     };
     dispatch({ type: "ADD_USER", payload: newUser });
 
@@ -89,7 +89,7 @@ function CreateView() {
             Gender
           </label>
           <select
-            name="Gender"
+            name="gender"
             id="reg-gender"
             className="registration-form__input"
             required

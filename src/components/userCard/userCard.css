@@ -3,8 +3,14 @@
   display: flex;
   border: solid 1px rgb(48, 236, 227);
   border-radius: 8px;
-  margin: 0.5rem;
-  background-color: rgb(207, 207, 207);
+  margin: 0.8rem;
+  background-image: linear-gradient(
+    to bottom right,
+    var(--neon-turquois) 1%,
+    var(--stone-light) 10%,
+    var(--stone-light) 90%,
+    var(--neon-pink) 99%
+  );
   box-shadow: 1px 1px 8px 1px rgb(2, 17, 16);
 }
 .userCard__img-container {
@@ -21,26 +27,35 @@ img {
   display: flex;
   gap: 1rem;
   padding: 0.5rem;
+  backdrop-filter: blur(2px);
 }
 .userCard__main {
   display: flex;
   gap: 0.8rem;
-  padding: 0.5rem;
-  margin: 0 0.5rem;
+  padding: 0.2rem;
+  margin: 0 0.1rem;
   flex-direction: column;
   align-items: left;
-  justify-content: end;
+  justify-content: center;
 }
 .userCard__info {
+  font-style: italic;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  font-size: 1.2rem;
+  gap: 0.5rem;
+  font-size: 1rem;
+  word-break: break-all;
 }
 
 .userCard__info--name {
-  margin-bottom: 3rem;
-  font-size: 2rem;
+  font-style: normal;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.userCard__info--locate {
+  margin-top: 2.8rem;
 }
 .userCard__link {
   text-decoration: none;

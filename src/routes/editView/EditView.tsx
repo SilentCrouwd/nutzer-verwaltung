@@ -90,7 +90,7 @@ function EditView() {
       web: formData.get("web") as string,
     };
 
-    dispatch({ type: "UPDATE_USER", payload: updatedUser });
+    dispatch({ type: "UPDATE_USER", payload: updatedUser as User });
     navigate("/overview");
   }
 

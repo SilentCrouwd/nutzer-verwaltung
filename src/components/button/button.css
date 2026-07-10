@@ -4,15 +4,17 @@
   height: 2rem;
   border: 1px solid transparent;
   border-radius: 8px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: var(--text-color);
+  background-color: var(--stone-deep);
 }
 .btn:hover {
-  border: solid 1px aqua;
+  border: solid 1px var(--neon-turquois);
 }
 .btn:active {
-  background-color: aqua;
+  background-color: var(--neon-pink);
 }
 .btn__delete {
   width: fit-content;

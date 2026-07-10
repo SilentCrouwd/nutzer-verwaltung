@@ -8,8 +8,6 @@ import { FaHouseUser } from "react-icons/fa";
 import { MdOutlineSmartphone } from "react-icons/md";
 import random from "../../assets/Random.jpeg";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../hooks/useContext";
-import { useContext } from "react";
 
 interface UserCardProps {
   UserName: string;

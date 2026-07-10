@@ -6,4 +6,15 @@
 body {
   height: 100vh;
   width: 100%;
+  color: var(--text-color);
+}
+:root {
+  --neon-turquois: #00f3ff;
+  --neon-pink: #ff007f;
+
+  /* --- STEINGRAU TÖNE --- */
+  --stone-dark: #24252a;
+  --stone-deep: #1a1c1e;
+  --stone-light: #2f3136ce;
+  --text-color: white;
 }
