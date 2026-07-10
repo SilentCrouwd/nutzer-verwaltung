@@ -8,22 +8,20 @@ import { FaHouseUser } from "react-icons/fa";
 import { MdOutlineSmartphone } from "react-icons/md";
 import random from "../../assets/Random.jpeg";
 import { Link } from "react-router-dom";
-
-import { useSetLocalStorage } from "../../hooks/useLocalStorage";
+import { UserContext } from "../../hooks/useContext";
 import { useContext } from "react";
-import { RenderContext } from "../../hooks/useRenderContext";
-import { UserContext } from "../../hooks/userContext";
 
 interface UserCardProps {
-  UserName: string | number;
-  UserBirth: string | number;
-  UserMail: string | number;
-  UserGender: string | number;
-  UserLocate: string | number;
-  UserPhone: string | number;
-  UserWeb: string | number;
+  UserName: string;
+  UserBirth: string;
+  UserMail: string;
+  UserGender: string;
+  UserLocate: string;
+  UserPhone: string;
+  UserWeb: string;
   UserPicture: string;
   UserId: number;
+  onDelete: () => void;
 }
 
 function UserCard({
@@ -36,23 +34,8 @@ function UserCard({
   UserWeb,
   UserPicture,
   UserId,
+  onDelete,
 }: Readonly<UserCardProps>) {
-  const { handleLocalStorage } = useSetLocalStorage();
-  const context = useContext(UserContext);
-
-  if (!context) {
-    throw new Error("Etwas ist schief gelaufen ");
-  }
-  const { userArray, addUser } = context;
-
-  const { render, setRender } = useContext(RenderContext);
-  function handleDeleteUser(currId: number) {
-    const newArray = userArray!.filter((currUser) => currUser.id !== currId);
-    handleLocalStorage(newArray ?? []);
-
-    setRender!(!render);
-  }
-
   return (
     <div className="userCard" data-id={UserId}>
       <div className="userCard__img-container">
@@ -96,9 +79,7 @@ function UserCard({
           <Button
             className="btn btn__delete"
             buttonName="X"
-            onClick={() => {
-              handleDeleteUser(UserId);
-            }}
+            onClick={onDelete}
           ></Button>
         </div>
       </div>

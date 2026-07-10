@@ -1,26 +1,31 @@
 import { useContext, useEffect } from "react";
 import UserCard from "../../components/userCard/UserCard";
-import { UserContext, type user } from "../../hooks/userContext";
 import "./overview.css";
+import { UserContext } from "../../hooks/useContext";
 
 function Overview() {
-  const userArray = useContext(UserContext)?.userArray;
+  const userContext = useContext(UserContext);
+  if (!userContext) {
+    return "hier is was falsch gelaufen";
+  }
+  const { state, dispatch } = userContext;
 
   return (
     <div className="overview__card-container">
-      {userArray!.map((user: user) => {
+      {state.users.map((user: any) => {
         return (
           <UserCard
             key={user.id}
             UserId={user.id}
-            UserName={user.Name}
-            UserBirth={new Date(user.Birth).toLocaleDateString("de-DE")}
-            UserGender={user.Gender}
-            UserMail={user.Mail}
-            UserLocate={user.Address}
-            UserPicture={String(user.Img)}
-            UserPhone={user.Phone}
-            UserWeb={user.Web}
+            UserName={user.name}
+            UserBirth={new Date(user.birth).toLocaleDateString("de-DE")}
+            UserGender={user.gender}
+            UserMail={user.mail}
+            UserLocate={user.locate}
+            UserPicture={String(user.picture)}
+            UserPhone={user.phone}
+            UserWeb={user.web}
+            onDelete={() => dispatch({ type: "DELETE_USER", payload: user.id })}
           ></UserCard>
         );
       })}

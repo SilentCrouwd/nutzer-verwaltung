@@ -1,22 +1,10 @@
-import type { user } from "./userContext";
+import type { User } from "./useReducerCrud";
 
 const LOCAL_STORAGE_KEY = "User";
 
 export function useSetLocalStorage() {
-  function handleLocalStorage(dataObj: user[]) {
+  function handleLocalStorage(dataObj: User) {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataObj));
   }
   return { handleLocalStorage };
-}
-
-export function useGetLocalStorage() {
-  function handleGetLocalStorage() {
-    const rawStoredData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (!rawStoredData || rawStoredData === "undefined") {
-      return [];
-    }
-    const storedUserData = JSON.parse(rawStoredData);
-    return storedUserData;
-  }
-  return { handleGetLocalStorage };
 }

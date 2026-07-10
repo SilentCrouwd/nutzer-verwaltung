@@ -8,6 +8,7 @@ interface InputProps {
   autoComplete?: string;
   required?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  defaultValue?: string;
 }
 
 function Inputfield({
@@ -20,6 +21,7 @@ function Inputfield({
   autoComplete,
   required,
   onChange,
+  defaultValue,
 }: InputProps) {
   return (
     <>
@@ -27,6 +29,7 @@ function Inputfield({
         {name}
       </label>
       <input
+        defaultValue={defaultValue}
         type={type}
         id={id}
         value={value}

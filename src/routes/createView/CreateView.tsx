@@ -1,12 +1,9 @@
 import "./createView.css";
 import Button from "../../components/button/Button";
 import Inputfield from "../../components/input/InputField";
-import { useHandleInput } from "../../hooks/useFormInput";
-import type React from "react";
-
-import { useContext } from "react";
-import { UserContext, type user } from "../../hooks/userContext";
-import type { FormInputs } from "../../hooks/useFormInputReducer";
+import React, { useContext } from "react";
+import { UserContext } from "../../hooks/useContext";
+import { useNavigate } from "react-router-dom";
 const FORM_FIELDS = [
   { id: "reg-name", name: "Name", type: "text" },
   {
@@ -44,25 +41,34 @@ const FORM_FIELDS = [
 ];
 
 function CreateView() {
-  const context = useContext(UserContext);
-
-  if (!context) {
-    throw new Error("Etwas ist schief gelaufen ");
+  const userContext = useContext(UserContext);
+  const navigate = useNavigate();
+  if (!userContext) {
+    return <p>Fehler: UserContext wurde nicht gefunden!</p>;
   }
-  const { addUser } = context;
-  const { values, handleInputChange, resetInputField } = useHandleInput();
+  const { state, dispatch } = userContext;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    addUser!(values as any);
-    resetInputField();
+    const formData = new FormData(e.currentTarget);
+    const newUser = {
+      id: Date.now(),
+      name: formData.get("Name") as string,
+      birth: formData.get("Birth") as string,
+      mail: formData.get("Mail") as string,
+      gender: formData.get("Gender") as string,
+      locate: formData.get("Address") as string,
+      phone: formData.get("Phone") as string,
+      web: formData.get("Web") as string,
+      picture: formData.get("Img") as string,
+    };
+    dispatch({ type: "ADD_USER", payload: newUser });
 
-    alert("User add to Storage");
-  };
-
+    navigate("/overview");
+  }
   return (
     <div className="registration">
-      <form className="registration-form" onSubmit={handleSubmit} noValidate>
+      <form className="registration-form" onSubmit={handleSubmit}>
         <h2 className="registration-form__title">Registrierung</h2>
         {FORM_FIELDS.map((field) => (
           <div className="registration-form__field" key={field.id}>
@@ -70,12 +76,10 @@ function CreateView() {
               type={field.type}
               id={field.id}
               name={field.name}
-              value={values[field.name as keyof FormInputs] ?? ""}
               className="registration-form"
               autoComplete={field.autoComplete}
               placeholder={field.placeholder}
               required={field.required}
-              onChange={handleInputChange}
             />
           </div>
         ))}
@@ -88,8 +92,6 @@ function CreateView() {
             name="Gender"
             id="reg-gender"
             className="registration-form__input"
-            value={values["Gender"] || ""}
-            onChange={handleInputChange}
             required
           >
             <option value="" disabled>

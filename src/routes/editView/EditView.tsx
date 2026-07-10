@@ -1,115 +1,124 @@
 import "./editView.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/button/Button";
 import Inputfield from "../../components/input/InputField";
-import { useSetLocalStorage } from "../../hooks/useLocalStorage";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../hooks/userContext";
-import { RenderContext } from "../../hooks/useRenderContext";
+import { UserContext } from "../../hooks/useContext";
+import { useContext, useEffect } from "react";
+import type { User } from "../../hooks/useReducerCrud";
 
 type RouteParams = {
   id: string;
 };
 
 const FORM_FIELDS = [
-  { id: "reg-name", name: "Name", type: "text" },
+  { id: "reg-name", name: "name", type: "text" },
   {
     id: "reg-birth",
-    name: "Birth",
+    name: "birth",
     type: "date",
     autoComplete: "bday",
     required: true,
   },
   {
     id: "reg-mail",
-    name: "Mail",
+    name: "mail",
     type: "email",
     autoComplete: "email",
     required: true,
   },
   {
     id: "reg-gender",
-    name: "Gender",
+    name: "gender",
     type: "text",
     placeholder: "z.B. Weiblich, Männlich, Divers...",
     required: true,
   },
   {
     id: "reg-locate",
-    name: "Address",
+    name: "address",
     type: "text",
     autoComplete: "country-name",
     placeholder: "z.B. Berlin, Deutschland",
   },
-  { id: "reg-phone", name: "Phone", type: "tel", autoComplete: "tel" },
+  { id: "reg-phone", name: "phone", type: "tel", autoComplete: "tel" },
   {
     id: "reg-web",
-    name: "Web",
+    name: "web",
     type: "url",
     placeholder: "https://example.com",
   },
+  { id: "reg-picture", name: "Img", type: "file", required: true },
 ];
 
 function EditView() {
-  const { id } = useParams<RouteParams>();
-  const userArray = useContext(UserContext)?.userArray;
-  const { handleLocalStorage } = useSetLocalStorage();
-  const { render, setRender } = useContext(RenderContext);
-  const addUser = useContext(UserContext)?.addUser;
+  const userContext = useContext(UserContext);
+  const navigate = useNavigate();
 
-  const [values, setValues] = useState<Record<string, string>>({});
+  if (!userContext) {
+    return <p>Fehler: UserContext wurde nicht gefunden!</p>;
+  }
+  const { state, dispatch } = userContext;
+
+  const { id } = useParams<RouteParams>();
+
+  const selectedUser = state.users.find((user) => user.id === Number(id));
+
+  if (!selectedUser) {
+    return <p>User wurde nicht gefunden!</p>;
+  }
 
   useEffect(() => {
-    if (userArray && userArray.length > 0) {
-      const foundUser = userArray.find((arrEL) => arrEL.id === Number(id));
-      if (foundUser) {
-        setValues(foundUser as any);
-      }
+    if (selectedUser) {
+      dispatch({ type: "SET_EDIT_USER", payload: selectedUser });
     }
-  }, [userArray, id]);
-
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
+  }, [id, selectedUser, dispatch]);
 
   function handleOnSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const updatedUsers = userArray?.map((currUser) =>
-      currUser.id === Number(id) ? { ...currUser, ...values } : currUser,
-    );
+    const formData = new FormData(e.currentTarget);
 
-    handleLocalStorage(updatedUsers ?? []);
-    addUser?.(values as any);
-    setRender!(!render);
+    const updatedUser = {
+      ...selectedUser,
+      id: selectedUser!.id,
+      name: formData.get("name") as string,
+      birth: formData.get("birth") as string,
+      mail: formData.get("mail") as string,
+      gender: formData.get("gender") as string,
+      locate: formData.get("address") as string, // "address" im Formular wird zu "locate" im State
+      phone: formData.get("phone") as string,
+      web: formData.get("web") as string,
+    };
+
+    dispatch({ type: "UPDATE_USER", payload: updatedUser });
+    navigate("/overview");
   }
 
   return (
     <div className="registration">
-      <form className="registration-form" noValidate onSubmit={handleOnSubmit}>
+      <form className="registration-form" onSubmit={handleOnSubmit}>
         <h2 className="registration-form__title">Edit</h2>
 
-        {FORM_FIELDS.map((field) => (
-          <div className="registration-form__field" key={field.id}>
-            <Inputfield
-              type={field.type}
-              id={field.id}
-              name={field.name}
-              className="registration-form"
-              autoComplete={field.autoComplete}
-              placeholder={field.placeholder}
-              required={field.required}
-              value={values[field.name] ?? ""}
-              onChange={handleInputChange}
-            />
-          </div>
-        ))}
+        {FORM_FIELDS.map((field) => {
+          const userKey =
+            field.name === "address" ? "locate" : (field.name as keyof User);
 
-        {/* Submit Button */}
+          return (
+            <div className="registration-form__field" key={field.id}>
+              <Inputfield
+                type={field.type}
+                id={field.id}
+                name={field.name}
+                className="registration-form"
+                autoComplete={field.autoComplete}
+                placeholder={field.placeholder}
+                required={field.required}
+                defaultValue={String(selectedUser[userKey] ?? "")}
+              />
+            </div>
+          );
+        })}
+
         <Button className="btn btn--submit" buttonName="Edit"></Button>
       </form>
     </div>
