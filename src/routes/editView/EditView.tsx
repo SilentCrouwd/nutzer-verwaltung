@@ -26,13 +26,7 @@ const FORM_FIELDS = [
     autoComplete: "email",
     required: true,
   },
-  {
-    id: "reg-gender",
-    name: "gender",
-    type: "text",
-    placeholder: "z.B. Weiblich, Männlich, Divers...",
-    required: true,
-  },
+
   {
     id: "reg-locate",
     name: "address",
@@ -118,6 +112,25 @@ function EditView() {
             </div>
           );
         })}
+        <div className="registration-form__field">
+          {" "}
+          <label htmlFor="reg-gender" className="registration-form__label">
+            gender
+          </label>
+          <select
+            name="gender"
+            id="reg-gender"
+            className="registration-form__input"
+            required
+          >
+            <option value="" disabled>
+              -- Bitte wählen --
+            </option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Undefined">Undefined</option>
+          </select>
+        </div>
 
         <Button className="btn btn--submit" buttonName="Edit"></Button>
       </form>

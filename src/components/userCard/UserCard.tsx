@@ -6,7 +6,9 @@ import { AiFillAndroid } from "react-icons/ai";
 import { IoMail } from "react-icons/io5";
 import { FaHouseUser } from "react-icons/fa";
 import { MdOutlineSmartphone } from "react-icons/md";
-import random from "../../assets/Random.jpeg";
+import female from "../../assets/female.jpeg";
+import male from "../../assets/male.png";
+import random from "../../assets/random.png";
 import { Link } from "react-router-dom";
 
 interface UserCardProps {
@@ -34,10 +36,23 @@ function UserCard({
   UserId,
   onDelete,
 }: Readonly<UserCardProps>) {
+  type Gender = "Female" | "Male" | "Unknown";
+
+  const getAvatar = (gender: Gender): string => {
+    switch (gender) {
+      case "Female":
+        return female;
+      case "Male":
+        return male;
+      default:
+        return random;
+    }
+  };
+
   return (
     <div className="userCard" data-id={UserId}>
       <div className="userCard__img-container">
-        <img src={random} alt={UserPicture} />
+        <img src={getAvatar(UserGender as Gender)} alt={UserPicture} />
       </div>
       <div className="userCard__wrapper">
         <Link className="userCard__link" to={`/edit/${UserId}`}>
