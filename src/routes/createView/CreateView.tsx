@@ -5,7 +5,12 @@ import React, { useContext } from "react";
 import { UserContext } from "../../hooks/useContext";
 import { useNavigate } from "react-router-dom";
 const FORM_FIELDS = [
-  { id: "reg-name", name: "name", type: "text" },
+  {
+    id: "reg-name",
+    name: "name",
+    type: "text",
+    placeholder: "Max Mustermann",
+  },
   {
     id: "reg-birth",
     name: "birth",
@@ -19,6 +24,7 @@ const FORM_FIELDS = [
     type: "email",
     autoComplete: "email",
     required: true,
+    placeholder: "Max_Mustermann@aol.com",
   },
 
   {
@@ -29,7 +35,13 @@ const FORM_FIELDS = [
     placeholder: "z.B. Berlin, Deutschland",
     required: true,
   },
-  { id: "reg-phone", name: "phone", type: "tel", autoComplete: "tel" },
+  {
+    id: "reg-phone",
+    name: "phone",
+    type: "tel",
+    autoComplete: "tel",
+    placeholder: "0151/22254569",
+  },
   {
     id: "reg-web",
     name: "web",
@@ -86,7 +98,7 @@ function CreateView() {
         <div className="registration-form__field">
           {" "}
           <label htmlFor="reg-gender" className="registration-form__label">
-            Gender
+            gender
           </label>
           <select
             name="gender"

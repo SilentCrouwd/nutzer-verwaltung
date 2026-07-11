@@ -2,9 +2,10 @@
   width: 100%;
   height: 100vh;
   display: flex;
-  background-image: url("../../assets/Beton.jpg");
+  background-image: url("../../assets/Beton.png");
   background-position: center;
-  background-size: cover;
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 .sidebar {
   backdrop-filter: blur(2px);

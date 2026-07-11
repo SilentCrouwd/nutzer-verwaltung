@@ -40,6 +40,9 @@
 .registration-form__input:hover {
   border-color: var(--neon-turquois);
 }
-.registration-form__input::placeholder {
-  color: var(--neon-pink);
+.registration-form__field:focus,
+.registration-form__input:focus {
+  outline: none;
+
+  border-color: var(--neon-pink);
 }
